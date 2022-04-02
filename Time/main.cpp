@@ -1,23 +1,47 @@
-#include "db/Time.h"
+#include "db/Time/Time.h"
 #include <ctime>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
+#include "db/Json/json.hpp"
 
 using namespace std;
+using namespace configor;
+int main()
+{
+	json j;
+	j["number"] = 1;
+	j["float"] = 1.5;
+	j["string"] = "this is a string";
+	j["boolean"] = true;
+	j["user"]["id"] = 10;
+	j["user"]["name"] = "Nomango";
 
-int main() {
-	// Time t1("2022-05-01");
-	// cout<<t1.getStrTime()<<endl;
+	cout<<j<<endl;
 
-	// cout<<Time::getTimeFormat()<<endl;
-	// Time::setTimeFormat("MM/DD/YYYY hh:mm:ss");
+	string str = "{\"boolean\":true,\"float\":1.5,\"number\":1,\"string\":\"this is a string\",\"user\":{\"id\":10,\"name\":\"Nomango\"}}";
 
-	// t1.addHour(2);
-	// cout<<t1.getStrTime()<<endl;
-	// cout<<t1.getIntTime()<<endl;
+	json ja = json::parse(str);
+
+	std::ofstream ofs("sample.json");
+
+	ofs<<ja;
+
+	ofs.close();
+
+	std::ifstream ifs("sample.json");
+	json jc;
+	ifs>>jc;
+
+	jc["wzz"] = "zuozhuwu";
+	jc["name"] = "wushuao";
+
+	cout<<jc;
 
 	
+
+	ifs.close();	
 	
 
 	return 0;
